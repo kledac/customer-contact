@@ -52,7 +52,6 @@
     <Compile Include="BO\City.cs" />
     <Compile Include="BO\Classification.cs" />
     <Compile Include="BO\Customer.cs" />
-    <Compile Include="BO\Partial\Customer.cs" />
     <Compile Include="BO\Partial\UserSys.cs" />
     <Compile Include="DataModel.cs" />
     <Compile Include="BO\Gender.cs" />

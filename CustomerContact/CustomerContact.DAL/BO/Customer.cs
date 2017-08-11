@@ -31,5 +31,6 @@ namespace CustomerContact.DAL
         public int? ClassificationId { get; set; }
 
         public int? UserId { get; set; }
+        
     }
 }

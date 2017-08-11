@@ -48,6 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\BaseBLL.cs" />
+    <Compile Include="BLL\CityBLL.cs" />
+    <Compile Include="BLL\ClassificationBLL.cs" />
+    <Compile Include="BLL\CustomerBLL.cs" />
+    <Compile Include="BLL\RegionBLL.cs" />
     <Compile Include="BLL\UserBLL.cs" />
     <Compile Include="Interface\UserInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -56,6 +60,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CustomerContact.Core\CustomerContact.Core.csproj">
+      <Project>{b52bc470-e654-4c9d-afef-0a1b18d60991}</Project>
+      <Name>CustomerContact.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CustomerContact.DAL\CustomerContact.DAL.csproj">
       <Project>{bf86c296-c4eb-4697-a289-a6c7ea4f19e5}</Project>
       <Name>CustomerContact.DAL</Name>

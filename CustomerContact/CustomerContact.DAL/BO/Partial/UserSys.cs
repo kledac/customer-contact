@@ -8,7 +8,8 @@ namespace CustomerContact.DAL
 
     public partial class UserSys
     {
+       
         [NotMapped]
-        public bool IsAdmin { get; set; }
+        public UserRole Role { get; set; }
     }
 }

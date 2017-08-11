@@ -34,7 +34,7 @@ namespace CustomerContact.DAL
                 .Property(e => e.Name)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Customer>()
+        modelBuilder.Entity<Customer>()
                 .Property(e => e.Phone)
                 .IsUnicode(false);
 

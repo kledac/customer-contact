@@ -1,0 +1,53 @@
+﻿@model CustomerContact.Core.Models.LoginModel
+@{
+    Layout = "~/Views/Shared/_LayoutOff.cshtml";
+    ViewBag.Title = "LoginView";
+}
+
+<div class="container">
+  @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-signin" }))
+  {
+    @Html.AntiForgeryToken()
+    <div>
+      <h2 class="form-signin-heading">Login</h2>
+    </div>
+    
+
+    if (ViewData["message"] != null)
+    {
+      <div class="alert alert-error">
+        @ViewData["message"]
+      </div>
+    }
+
+    <div class="col-md-offset-4 col-md-4 row">
+      <div class="input-group @(ViewData["ErrorMessage"]!=null?"has-error":"")">
+        <label for="login" class="sr-only">E-mail</label>
+        
+        @Html.TextBoxFor(model=>model.email, new  { @type="email", @class="form-control", @placeholder="E-mail", @required="", @autofocus="true" })
+        
+      </div>
+    </div>
+    <div class="col-md-offset-4 col-md-4 row">
+      <div class="input-group @(ViewData["ErrorMessage"]!=null?"has-error":"")">
+        <label for="password" class="sr-only">Password</label>
+        @Html.TextBoxFor(model => model.password, new { @type = "password", @class = "form-control", @placeholder = "Password", @required = ""})
+       
+      </div>
+    </div>
+    <div class="col-md-offset-4 col-md-3 row">
+      <div class="input-group @(ViewData["ErrorMessage"]!=null?"has-error":"")">
+        <span>@ViewData["ErrorMessage"]</span>
+
+      </div>
+    </div>
+    <div class="col-md-offset-4 col-md-4 row">
+      <div class="input-group">
+        
+        <button class="btn btn-login btn-lg btn-primary btn-block" type="submit">Login</button>
+      </div>
+    </div>
+       
+      }
+    </div>
+

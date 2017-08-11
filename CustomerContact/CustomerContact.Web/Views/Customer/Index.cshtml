@@ -1,0 +1,212 @@
+﻿@model CustomerContact.Core.Models.CustomerModel
+@using CustomerContact.Web.Classes;
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    AppUserState UserState = ViewData["UserState"] as AppUserState;
+    ViewBag.Url = Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
+}
+
+
+<h2>
+  Customer Contacts - List
+</h2>
+
+<div ng-controller="TableController">
+
+  <div class="filterList container">
+    <div class="col-md-5">
+      <div class="input-group">
+        <span class="input-group-addon" id="name-addon">Name</span>
+        <input type="text" class="form-control" name="name" value="" ng-model="nameFilter" aria-describedby="name-addon">
+
+        
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="input-group">
+        
+
+        <span class="input-group-addon" id="basic-addon2">Gender</span>
+        @Html.DropDownListFor(m => m.genderIdFilter, Model.genderFilter, new { @class = "form-control", @ng_Model = "genderF", @aria_describedby = "gender-addon" })
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="input-group">
+        <span class="input-group-addon" id="region-addon">Region</span>
+        @Html.DropDownListFor(m => m.regionIdFlter, Model.regionFilter, new { @class = "form-control", @ng_Model = "regionFilter", @aria_describedby = "region-addon", @ng_change="regionChange()" })
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="input-group">
+        <span class="input-group-addon" id="City-addon">City</span>
+        <select class="form-control" name="cityFilter"
+                 ng-options="item as item.Name for item in Cities track by item.Id"
+                ng-model="cityFilter" aria-describedby="city-addon">
+          
+        </select>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="input-group date datetimepicker">
+        <span class="input-group-addon" id="LastPurchase-addon">Last Purchase</span>
+        <input type="text" class="form-control" name="startDate" value="" ng-model="startDateFilter" aria-describedby="LastPurchase-addon">
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-calendar">
+          </span>
+        </span>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="input-group">
+        <div class="input-group date datetimepicker">
+          <span class="input-group-addon" id="until-addon">Until</span>
+          <input type="text" class="form-control" name="endDate" value="" ng-model="endDateFilter" aria-describedby="until-addon">
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar">
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">Classification</span>
+        @Html.DropDownListFor(m => m.classificationIdFilter, Model.classificationFilter, new { @class = "form-control", @ng_Model = "classFilter", @aria_describedby = "basic-addon1" })
+      </div>
+    </div>
+    @if (UserState.IsAdmin)
+    {
+    <div class="col-md-5">
+      <div class="input-group">
+        <span class="input-group-addon" id="seller-addon1">Seller</span>
+        @Html.DropDownListFor(m => m.sellerIdFilter, Model.sellerFilter, new { @class = "form-control", @ng_Model = "sellerFilter", @aria_describedby = "seller-addon1" })
+     
+      </div>
+    </div>
+    }
+
+
+      <div class="form-group col-xs-offset-0 col-md-offset-0" >
+
+        <button type="button" ng-click="clearFilters()" name="button" class="btn btn-default">Clear</button>
+      </div>
+
+    </div>
+  <div class="input-group">
+
+
+
+
+  </div>
+
+  <br />
+  
+  <div class="container">
+    <div class="row">
+
+
+
+      <table class="table table-bordered table-striped">
+
+        <thead>
+          <tr>
+            <td>
+              <a href="#" ng-click="sort('Classification')">
+                Classification
+                <span class="glyphicon sort-icon" ng-show="sortType=='Classification'" ng-class="{'glyphicon-chevron-up':sortDescending,'glyphicon-chevron-down':!sortDescending}"></span>
+
+              </a>
+            </td>
+            <td>
+              <a href="#" ng-click="sort('Name')">
+                Name
+                <span class="glyphicon sort-icon" ng-show="sortType=='Name'" ng-class="{'glyphicon-chevron-up':sortDescending,'glyphicon-chevron-down':!sortDescending}"></span>
+              </a>
+            </td>
+            <td>
+              <a href="#" ng-click="sort('Phone')">
+                Phone
+                <span class="glyphicon sort-icon" ng-show="sortType=='Phone'" ng-class="{'glyphicon-chevron-up':sortDescending,'glyphicon-chevron-down':!sortDescending}"></span>
+              </a>
+            </td>
+            <td>
+              <a href="#" ng-click="sort('Gender')">
+                Gender
+                <span class="glyphicon sort-icon" ng-show="sortType=='Gender'" ng-class="{'glyphicon-chevron-up':sortDescending,'glyphicon-chevron-down':!sortDescending}"></span>
+              </a>
+            </td>
+            <td>
+              <a href="#" ng-click="sort('Region')">
+                Region
+                <span class="glyphicon sort-icon" ng-show="sortType=='Region'" ng-class="{'glyphicon-chevron-up':sortDescending,'glyphicon-chevron-down':!sortDescending}"></span>
+              </a>
+            </td>
+            <td>
+              <a href="#" ng-click="sort('City')">
+                City
+                <span class="glyphicon sort-icon" ng-show="sortType=='City'" ng-class="{'glyphicon-chevron-up':sortDescending,'glyphicon-chevron-down':!sortDescending}"></span>
+              </a>
+            </td>
+            <td>
+              <a href="#" ng-click="sort('LastPurchase')">
+                Last Purchase
+                <span class="glyphicon sort-icon" ng-show="sortType=='LastPurchase'" ng-class="{'glyphicon-chevron-up':sortDescending,'glyphicon-chevron-down':!sortDescending}"></span>
+              </a>
+            </td>
+            @if (UserState.IsAdmin)
+            {
+            <td>
+              <a href="#" ng-click="sort('Seller')">
+                Seller
+                <span class="glyphicon sort-icon" ng-show="sortType=='Seller'" ng-class="{'glyphicon-chevron-up':sortDescending,'glyphicon-chevron-down':!sortDescending}"></span>
+              </a>
+            </td>
+            }
+          </tr>
+        </thead>
+        
+        <tbody>
+          <tr dir-paginate="user in filteredUsers = ( list | orderBy:sortType:sortDescending|filter:filterByName | filter:filterByEndDate | filter:filterByStartDate |filter:classificationFilter|filter:genderFilter |filter:filterByRegion |filter:filterByCity |filter:filterSeller )  |itemsPerPage:2">
+            <td>{{ user.Classification }}</td>
+            <td>{{ user.Name }}</td>
+            <td>{{ user.Phone }}</td>
+            <td>{{ user.Gender }}</td>
+            <td>{{ user.City }}</td>
+            <td>{{ user.Region }}</td>
+            <td>{{ user.LastPurchase | date:'MM/dd/yyyy' }}</td>
+            @if (UserState.IsAdmin)
+            {
+            <td>{{ user.Seller }}</td>
+            }
+          </tr>
+        </tbody>
+      </table>
+      <div class="">
+        Total Customers: <span ng-bind="list.length"></span>
+        Filtering: <span ng-bind="filteredUsers.length"></span>
+      </div>
+
+      <dir-pagination-controls max-size="5"
+                               direction-links="true"
+                               boundary-links="true">
+      </dir-pagination-controls>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+@section scripts{
+  
+  
+  <script>
+    var data = @Html.Raw(Json.Encode(Model.customers));
+    var urlSite = "@ViewBag.Url";
+  </script>
+  <script src="@Url.Content("~/Scripts/main.js")"></script>
+ 
+}

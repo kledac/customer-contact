@@ -31,7 +31,10 @@ namespace CustomerContact.BLL
         public UserSys Login(string email, string password)
         {
             String hashPass = string.Join("", MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(password)).Select(s => s.ToString("x2")));
-            return context.UserSys.FirstOrDefault(u => u.Email.Equals(email) && u.Password.Equals(hashPass));
+            UserSys user = context.UserSys.FirstOrDefault(u => u.Email.Equals(email) && u.Password.Equals(hashPass));
+            if (user != null)
+                user.Role = context.UserRole.First(ur => ur.Id == user.UserRoleId);
+            return user; 
         }
         /// <summary>
         /// Set all passwords to MD5
